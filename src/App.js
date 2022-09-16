@@ -26,8 +26,30 @@ function App() {
     }
   }
 
+  //save to local
+  const saveLocalTodo = () => {    
+      localStorage.setItem('todos', JSON.stringify(todos))    
+  }
+
+  //get todo from local storage
+  const getLocalTodo = () => {
+    if(localStorage.getItem("todos") === null) {
+      localStorage.setItem("todos", JSON.stringify([]))
+    } else {
+      let todoLocal = JSON.parse(localStorage.getItem("todos"));
+      setTodos(todoLocal)
+    }
+  }
+
+  //run once when app starts
   useEffect(() => {
+    getLocalTodo() 
+  }, [])
+
+  useEffect(() => {    
     filterTodo();
+    saveLocalTodo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[todos, status])
   
   return (
